@@ -16,7 +16,6 @@ class ViewController: UITableViewController {
         super.viewDidLoad()
 
         title = "Top 100 Albums on iTunes"
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
 
         fetchTop100AlbumsOnItunes()
     }
@@ -32,6 +31,8 @@ class ViewController: UITableViewController {
                 guard let feed = json?["feed"] as? Dictionary<String, AnyObject> else { return }
                 guard let results = feed["results"] as? [AnyObject] else { return }
 
+                print(results)
+                
                 self.albums = results
                 
                 DispatchQueue.main.async {
@@ -52,13 +53,34 @@ class ViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+
+        var cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
+        
+        if cell == nil {
+            cell = UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: cellIdentifier)
+        }
+        
         let album = albums?[indexPath.row] as? Dictionary<String, AnyObject>
-      
-        cell.textLabel?.text = album?["name"] as? String
-        cell.detailTextLabel?.text = album?["artistName"] as? String
-     
-        return cell
+        
+        cell?.textLabel?.text = album?["name"] as? String
+        cell?.detailTextLabel?.text = album?["artistName"] as? String
+        cell?.imageView?.image = nil
+                
+        DispatchQueue.global().async {
+            
+            guard let imageUrl = album?["artworkUrl100"] as? String else { return }
+            guard let url = URL(string: imageUrl) else { return }
+            
+            let data = try? Data(contentsOf: url)
+            DispatchQueue.main.async {
+                if let currentCell = tableView.cellForRow(at: indexPath) {
+                    currentCell.imageView?.image = UIImage(data: data!)
+                    currentCell.setNeedsLayout()
+                }
+            }
+        }
+        
+        return cell ?? UITableViewCell()
     }
 }
 
