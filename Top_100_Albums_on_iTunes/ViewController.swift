@@ -9,13 +9,15 @@
 import UIKit
 
 class ViewController: UITableViewController {
-
+    let cellIdentifier = "AlbumCell"
     var albums: [AnyObject]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         title = "Top 100 Albums on iTunes"
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+
         fetchTop100AlbumsOnItunes()
     }
     
@@ -41,6 +43,22 @@ class ViewController: UITableViewController {
         }
         
         dataTask.resume()
+    }
+    
+    //MARK: Table View Data Source Methods
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        albums?.count ?? 0
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+        let album = albums?[indexPath.row] as? Dictionary<String, AnyObject>
+      
+        cell.textLabel?.text = album?["name"] as? String
+        cell.detailTextLabel?.text = album?["artistName"] as? String
+     
+        return cell
     }
 }
 
