@@ -37,6 +37,9 @@ class ViewController: UITableViewController {
                 
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
+                    //#if DEBUG
+                    //self.tableView(self.tableView, didSelectRowAt: IndexPath(row: 13, section: 0))
+                    //#endif
                 }
             } catch {
                 print("Error: The JSON could not be parsed.")
@@ -81,6 +84,21 @@ class ViewController: UITableViewController {
         }
         
         return cell ?? UITableViewCell()
+    }
+    
+    //MARK: Table View Delegate Methods
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: false)
+        
+        let detailViewController = DetailViewController()
+        
+        guard let album = albums?[indexPath.row] else { return }
+        
+        detailViewController.album = album
+        
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
 
