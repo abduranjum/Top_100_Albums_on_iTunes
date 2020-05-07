@@ -24,6 +24,7 @@ class DetailViewController: UIViewController {
         createImageViewForAlbumArt()
         createLabelForName()
         createLabelForAlbumArtist()
+        createButtonToGoBack()
     }
     
     func createStackView() {
@@ -78,6 +79,30 @@ class DetailViewController: UIViewController {
         label.text = "Artist: \(albumArtist)"
     }
     
+    func createButtonToGoBack() {
+        
+        let button = UIButton()
+        view.addSubview(button)
+        button.translatesAutoresizingMaskIntoConstraints = false
+
+        let margins = view.safeAreaLayoutGuide
+
+        button.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        button.leadingAnchor.constraint(equalTo: margins.leadingAnchor, constant: 20).isActive = true
+        button.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: -20).isActive = true
+        button.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: -20).isActive = true
+        
+        button.backgroundColor = .lightGray
+
+        button.setTitle("Return to Albums", for: .normal)
+        
+        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+    }
+    
+    @objc func buttonAction(sender: UIButton!) {
+        self.navigationController?.popViewController(animated: true)
+    }
+
     func loadImage(in imageView: UIImageView, from urlString: String) {
         DispatchQueue.global().async {
             guard let url = URL(string: urlString) else { return }
