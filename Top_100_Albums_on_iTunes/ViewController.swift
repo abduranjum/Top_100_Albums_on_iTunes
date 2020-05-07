@@ -63,7 +63,7 @@ class ViewController: UITableViewController {
         let album = albums?[indexPath.row]
     
         cell?.textLabel?.text = album?["name"] as? String
-        cell?.detailTextLabel?.text = album?["artistName"] as? String
+        cell?.detailTextLabel?.text = "Artist: \(album?["artistName"] as? String ?? "")"
         cell?.imageView?.image = nil
                 
         DispatchQueue.global().async {
