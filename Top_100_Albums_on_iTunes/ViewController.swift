@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UITableViewController {
     let cellIdentifier = "AlbumCell"
-    var albums: [AnyObject]?
+    var albums: [Dictionary<String, AnyObject>]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,7 +29,7 @@ class ViewController: UITableViewController {
                 let json = try JSONSerialization.jsonObject(with: feedData) as? Dictionary<String, AnyObject>
                 
                 guard let feed = json?["feed"] as? Dictionary<String, AnyObject> else { return }
-                guard let results = feed["results"] as? [AnyObject] else { return }
+                guard let results = feed["results"] as? [Dictionary<String, AnyObject>] else { return }
 
                 print(results)
                 
@@ -47,7 +47,7 @@ class ViewController: UITableViewController {
     }
     
     //MARK: Table View Data Source Methods
-    
+
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         albums?.count ?? 0
     }
@@ -60,8 +60,8 @@ class ViewController: UITableViewController {
             cell = UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: cellIdentifier)
         }
         
-        let album = albums?[indexPath.row] as? Dictionary<String, AnyObject>
-        
+        let album = albums?[indexPath.row]
+    
         cell?.textLabel?.text = album?["name"] as? String
         cell?.detailTextLabel?.text = album?["artistName"] as? String
         cell?.imageView?.image = nil
