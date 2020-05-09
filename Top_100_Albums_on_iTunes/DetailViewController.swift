@@ -26,8 +26,8 @@ class DetailViewController: UIViewController {
     func createSubviews() {
         createStackView()
         createImageViewForAlbumArt()
-        createLabelForName()
-        createLabelForAlbumArtist()
+        createLabelFromAlbum(withTitle: "Name", andTextKey: "name")
+        createLabelFromAlbum(withTitle: "Artist", andTextKey: "artistName")
         createButtonToGoBack()
     }
     
@@ -63,24 +63,16 @@ class DetailViewController: UIViewController {
         loadImage(in: imageView, from: imageUrlString)
     }
     
-    func createLabelForName() {
+    func createLabelFromAlbum(withTitle title: String, andTextKey key: String) {
+
+        guard let textForKey = self.album?[key] as? String else { return }
         
-        let label = UILabel()
-        stackView?.addArrangedSubview(label)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        guard let name = self.album?["name"] as? String else { return }
-        label.text = "Name: \(name)"
-    }
     
-    func createLabelForAlbumArtist() {
         
         let label = UILabel()
         stackView?.addArrangedSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        guard let albumArtist = self.album?["artistName"] as? String else { return }
-        label.text = "Artist: \(albumArtist)"
+        label.text = "\(title): \(text)"
     }
     
     func createButtonToGoBack() {
