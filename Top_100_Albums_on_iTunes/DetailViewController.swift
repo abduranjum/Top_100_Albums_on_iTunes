@@ -78,6 +78,8 @@ class DetailViewController: UIViewController {
         let label = UILabel()
         stackView?.addArrangedSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.textAlignment = .center
         label.text = "\(title): \(text)"
     }
     
