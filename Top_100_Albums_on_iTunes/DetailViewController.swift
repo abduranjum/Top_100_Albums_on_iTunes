@@ -28,6 +28,7 @@ class DetailViewController: UIViewController {
         createImageViewForAlbumArt()
         createLabelFromAlbum(withTitle: "Name", andTextKey: "name")
         createLabelFromAlbum(withTitle: "Artist", andTextKey: "artistName")
+        createLabelFromAlbum(withTitle: "Genres", andText: getGenres())
         createLabelFromAlbum(withTitle: "Release Date", andTextKey: "releaseDate")
         createLabelFromAlbum(withTitle: "Copyright", andTextKey: "copyright")
         createButtonToGoBack()
@@ -69,7 +70,10 @@ class DetailViewController: UIViewController {
 
         guard let textForKey = self.album?[key] as? String else { return }
         
+        createLabelFromAlbum(withTitle: title, andText: textForKey)
+    }
     
+    func createLabelFromAlbum(withTitle title: String, andText text: String) {
         
         let label = UILabel()
         stackView?.addArrangedSubview(label)
@@ -111,6 +115,14 @@ class DetailViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    func getGenres() -> String {
+        guard let genresData = self.album?["genres"] as? Array<Dictionary<String, String>> else { return ""}
+     
+        let genres = genresData.map({$0["name"] ?? ""})
+
+        return genres.joined(separator: ", ")
     }
     
     @objc func buttonAction(sender: UIButton!) {
