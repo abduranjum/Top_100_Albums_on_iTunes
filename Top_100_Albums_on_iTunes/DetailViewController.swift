@@ -28,6 +28,8 @@ class DetailViewController: UIViewController {
         createImageViewForAlbumArt()
         createLabelFromAlbum(withTitle: "Name", andTextKey: "name")
         createLabelFromAlbum(withTitle: "Artist", andTextKey: "artistName")
+        createLabelFromAlbum(withTitle: "Release Date", andTextKey: "releaseDate")
+        createLabelFromAlbum(withTitle: "Copyright", andTextKey: "copyright")
         createButtonToGoBack()
     }
     
