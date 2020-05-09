@@ -12,6 +12,8 @@ class DetailViewController: UIViewController {
     var album: Dictionary<String, AnyObject>?
     var stackView: UIStackView?
     
+    //MARK: View Life-Cycle Methods
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Album Detail"
@@ -19,6 +21,8 @@ class DetailViewController: UIViewController {
         createSubviews()
     }
     
+    //MARK: View Creation Methods
+
     func createSubviews() {
         createStackView()
         createImageViewForAlbumArt()
@@ -99,10 +103,8 @@ class DetailViewController: UIViewController {
         button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
     }
     
-    @objc func buttonAction(sender: UIButton!) {
-        self.navigationController?.popViewController(animated: true)
-    }
-
+    //MARK: Convenience Methods
+    
     func loadImage(in imageView: UIImageView, from urlString: String) {
         DispatchQueue.global().async {
             guard let url = URL(string: urlString) else { return }
@@ -115,6 +117,10 @@ class DetailViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    @objc func buttonAction(sender: UIButton!) {
+        self.navigationController?.popViewController(animated: true)
     }
 }
 
