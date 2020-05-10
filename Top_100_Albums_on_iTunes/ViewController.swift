@@ -10,7 +10,7 @@ import UIKit
 
 class ViewController: UITableViewController {
     let cellIdentifier = "AlbumCell"
-    var albums: [Dictionary<String, AnyObject>]?
+    var albumViewModels: [AlbumViewModel]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +33,7 @@ class ViewController: UITableViewController {
 
                 print(results)
                 
-                self.albums = results
+                self.albumViewModels = results.map({AlbumViewModel(AlbumModel($0))})
                 
                 DispatchQueue.main.async {
                     self.tableView.reloadData()
@@ -52,7 +52,7 @@ class ViewController: UITableViewController {
     //MARK: Table View Data Source Methods
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        albums?.count ?? 0
+        albumViewModels?.count ?? 0
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -63,15 +63,15 @@ class ViewController: UITableViewController {
             cell = UITableViewCell(style: UITableViewCell.CellStyle.subtitle, reuseIdentifier: cellIdentifier)
         }
         
-        let album = albums?[indexPath.row]
+        let albumViewModel = albumViewModels?[indexPath.row]
     
-        cell?.textLabel?.text = album?["name"] as? String
-        cell?.detailTextLabel?.text = "Artist: \(album?["artistName"] as? String ?? "")"
+        cell?.textLabel?.text = albumViewModel?.nameText
+        cell?.detailTextLabel?.text = albumViewModel?.artistNameText
         cell?.imageView?.image = nil
                 
         DispatchQueue.global().async {
             
-            guard let imageUrl = album?["artworkUrl100"] as? String else { return }
+            guard let imageUrl = albumViewModel?.artworkUrl else { return }
             guard let url = URL(string: imageUrl) else { return }
             
             let data = try? Data(contentsOf: url)
@@ -94,9 +94,9 @@ class ViewController: UITableViewController {
         
         let detailViewController = DetailViewController()
         
-        guard let album = albums?[indexPath.row] else { return }
+        guard let albumViewModel = albumViewModels?[indexPath.row] else { return }
         
-        detailViewController.album = album
+        detailViewController.albumViewModel = albumViewModel
         
         navigationController?.pushViewController(detailViewController, animated: true)
     }

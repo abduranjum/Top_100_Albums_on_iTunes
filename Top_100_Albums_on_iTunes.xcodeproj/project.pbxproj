@@ -14,6 +14,8 @@
 		DA4D6A432460D2C000BE55A5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DA4D6A412460D2C000BE55A5 /* LaunchScreen.storyboard */; };
 		DA4D6A4E2460D2C100BE55A5 /* Top_100_Albums_on_iTunesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4D6A4D2460D2C100BE55A5 /* Top_100_Albums_on_iTunesTests.swift */; };
 		DA4D6A5B2463832000BE55A5 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4D6A5A2463832000BE55A5 /* DetailViewController.swift */; };
+		DA4D6A5D2468852B00BE55A5 /* AlbumModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4D6A5C2468852B00BE55A5 /* AlbumModel.swift */; };
+		DA4D6A5F2468856800BE55A5 /* AlbumViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4D6A5E2468856800BE55A5 /* AlbumViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +40,8 @@
 		DA4D6A4D2460D2C100BE55A5 /* Top_100_Albums_on_iTunesTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Top_100_Albums_on_iTunesTests.swift; sourceTree = "<group>"; };
 		DA4D6A4F2460D2C100BE55A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA4D6A5A2463832000BE55A5 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		DA4D6A5C2468852B00BE55A5 /* AlbumModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumModel.swift; sourceTree = "<group>"; };
+		DA4D6A5E2468856800BE55A5 /* AlbumViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +85,8 @@
 			children = (
 				DA4D6A362460D2C000BE55A5 /* AppDelegate.swift */,
 				DA4D6A382460D2C000BE55A5 /* SceneDelegate.swift */,
+				DA4D6A5C2468852B00BE55A5 /* AlbumModel.swift */,
+				DA4D6A5E2468856800BE55A5 /* AlbumViewModel.swift */,
 				DA4D6A3A2460D2C000BE55A5 /* ViewController.swift */,
 				DA4D6A5A2463832000BE55A5 /* DetailViewController.swift */,
 				DA4D6A3F2460D2C000BE55A5 /* Assets.xcassets */,
@@ -199,7 +205,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA4D6A5F2468856800BE55A5 /* AlbumViewModel.swift in Sources */,
 				DA4D6A3B2460D2C000BE55A5 /* ViewController.swift in Sources */,
+				DA4D6A5D2468852B00BE55A5 /* AlbumModel.swift in Sources */,
 				DA4D6A372460D2C000BE55A5 /* AppDelegate.swift in Sources */,
 				DA4D6A392460D2C000BE55A5 /* SceneDelegate.swift in Sources */,
 				DA4D6A5B2463832000BE55A5 /* DetailViewController.swift in Sources */,

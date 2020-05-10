@@ -9,7 +9,7 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-    var album: Dictionary<String, AnyObject>?
+    var albumViewModel: AlbumViewModel?
     var stackView: UIStackView?
     
     //MARK: View Life-Cycle Methods
@@ -26,11 +26,11 @@ class DetailViewController: UIViewController {
     func createSubviews() {
         createStackView()
         createImageViewForAlbumArt()
-        createLabelFromAlbum(withTitle: "Name", andTextKey: "name")
-        createLabelFromAlbum(withTitle: "Artist", andTextKey: "artistName")
-        createLabelFromAlbum(withTitle: "Genres", andText: getGenres())
-        createLabelFromAlbum(withTitle: "Release Date", andTextKey: "releaseDate")
-        createLabelFromAlbum(withTitle: "Copyright", andTextKey: "copyright")
+        createLabel(fromText: albumViewModel?.nameText)
+        createLabel(fromText: albumViewModel?.artistNameText)
+        createLabel(fromText: albumViewModel?.genreText)
+        createLabel(fromText: albumViewModel?.releaseDateText)
+        createLabel(fromText: albumViewModel?.copyrightText)
         createButtonToGoBack()
     }
     
@@ -62,25 +62,20 @@ class DetailViewController: UIViewController {
         imageView.heightAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
         imageView.contentMode = .scaleAspectFit
-        guard let imageUrlString = self.album?["artworkUrl100"] as? String else { return }
+        guard let imageUrlString = self.albumViewModel?.artworkUrl else { return }
+        
         loadImage(in: imageView, from: imageUrlString)
     }
     
-    func createLabelFromAlbum(withTitle title: String, andTextKey key: String) {
-
-        guard let textForKey = self.album?[key] as? String else { return }
+    func createLabel(fromText text: String?) {
         
-        createLabelFromAlbum(withTitle: title, andText: textForKey)
-    }
-    
-    func createLabelFromAlbum(withTitle title: String, andText text: String) {
-        
+        guard let text = text else { return }
         let label = UILabel()
         stackView?.addArrangedSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         label.textAlignment = .center
-        label.text = "\(title): \(text)"
+        label.text = text
     }
     
     func createButtonToGoBack() {
@@ -117,14 +112,6 @@ class DetailViewController: UIViewController {
                 }
             }
         }
-    }
-    
-    func getGenres() -> String {
-        guard let genresData = self.album?["genres"] as? Array<Dictionary<String, String>> else { return ""}
-     
-        let genres = genresData.map({$0["name"] ?? ""})
-
-        return genres.joined(separator: ", ")
     }
     
     @objc func buttonAction(sender: UIButton!) {
