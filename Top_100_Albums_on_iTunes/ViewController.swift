@@ -24,7 +24,11 @@ class ViewController: UITableViewController {
         let urlString = "https://rss.itunes.apple.com/api/v1/us/apple-music/coming-soon/all/100/explicit.json"
         guard let url = URL(string: urlString) else { return }
         let dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let feedData = data else { return }
+            guard let feedData = data else {
+                self.displayAlert(withMessage: error?.localizedDescription ?? "An error occurred while fetching the feed.")
+                return
+            }
+            
             do {
                 let json = try JSONSerialization.jsonObject(with: feedData) as? Dictionary<String, AnyObject>
                 
@@ -42,7 +46,7 @@ class ViewController: UITableViewController {
                     //#endif
                 }
             } catch {
-                print("Error: The JSON could not be parsed.")
+                self.displayAlert(withMessage: "An error occurred while parsing the JSON.")
             }
         }
         
@@ -99,6 +103,16 @@ class ViewController: UITableViewController {
         detailViewController.albumViewModel = albumViewModel
         
         navigationController?.pushViewController(detailViewController, animated: true)
+    }
+    
+    //MARK: Convenience Methods
+    
+    func displayAlert(withMessage message: String) {
+        DispatchQueue.main.async {
+            let alertController = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
 }
 
