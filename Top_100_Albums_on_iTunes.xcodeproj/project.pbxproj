@@ -85,10 +85,9 @@
 			children = (
 				DA4D6A362460D2C000BE55A5 /* AppDelegate.swift */,
 				DA4D6A382460D2C000BE55A5 /* SceneDelegate.swift */,
-				DA4D6A5C2468852B00BE55A5 /* AlbumModel.swift */,
-				DA4D6A5E2468856800BE55A5 /* AlbumViewModel.swift */,
-				DA4D6A3A2460D2C000BE55A5 /* ViewController.swift */,
-				DA4D6A5A2463832000BE55A5 /* DetailViewController.swift */,
+				DA9E844024695D0300AC2E6C /* Models */,
+				DA9E844124695D1D00AC2E6C /* ViewModels */,
+				DA9E844224695D2E00AC2E6C /* Views */,
 				DA4D6A3F2460D2C000BE55A5 /* Assets.xcassets */,
 				DA4D6A412460D2C000BE55A5 /* LaunchScreen.storyboard */,
 				DA4D6A442460D2C000BE55A5 /* Info.plist */,
@@ -103,6 +102,31 @@
 				DA4D6A4F2460D2C100BE55A5 /* Info.plist */,
 			);
 			path = Top_100_Albums_on_iTunesTests;
+			sourceTree = "<group>";
+		};
+		DA9E844024695D0300AC2E6C /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				DA4D6A5C2468852B00BE55A5 /* AlbumModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		DA9E844124695D1D00AC2E6C /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				DA4D6A5E2468856800BE55A5 /* AlbumViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		DA9E844224695D2E00AC2E6C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DA4D6A3A2460D2C000BE55A5 /* ViewController.swift */,
+				DA4D6A5A2463832000BE55A5 /* DetailViewController.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
