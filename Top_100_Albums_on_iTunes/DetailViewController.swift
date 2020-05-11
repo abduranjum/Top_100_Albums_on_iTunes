@@ -99,11 +99,7 @@ class DetailViewController: UIViewController {
     //MARK: Convenience Methods
     
     @objc func buttonAction(sender: UIButton?) {
-        guard let urlString = albumViewModel?.url else { return }
-        guard let url = URL(string: urlString) else { return }
-        if UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url)
-        }
+        albumViewModel?.openAlbumInItunes(withCompletion: {_ in })
     }
 }
 

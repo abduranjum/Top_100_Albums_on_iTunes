@@ -11,7 +11,7 @@ import UIKit
 class AlbumViewModel {
     var artwork: UIImage?
     private var artworkUrl: String?
-    var url: String?
+    private var url: String?
     var nameText: String?
     var artistNameText: String?
     var genreText: String?
@@ -48,5 +48,13 @@ class AlbumViewModel {
             self.artwork = image
             completion(image)
         }
+    }
+    
+    func openAlbumInItunes(withCompletion completion: @escaping (Bool) -> ()) {
+        guard let urlString = url else { completion(false); return }
+        guard let url = URL(string: urlString) else { completion(false); return }
+        guard UIApplication.shared.canOpenURL(url) else { completion(false); return }
+        UIApplication.shared.open(url)
+        completion(true)
     }
 }
