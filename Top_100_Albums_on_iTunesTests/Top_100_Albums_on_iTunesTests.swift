@@ -21,18 +21,25 @@ class Top_100_Albums_on_iTunesTests: XCTestCase {
 
     func testAlbumViewModel() throws {
 
-        let albumDTO: Dictionary<String, Any> = ["artworkUrl100": "https://via.placeholder.com/150", "name": "Test Album", "artistName": "Test Artist Name", "genres": [["name": "Test Genre 1"], ["name": "Test Genre 2"]], "releaseDate": "2020-05-15", "copyright": "℗ 2020 Test Copyright"]
+        let albumDTO: Dictionary<String, Any> = ["artworkUrl100": "https://via.placeholder.com/150", "url": "https://music.apple.com/us/album/chromatica/1500951604?app=music", "name": "Test Album", "artistName": "Test Artist Name", "genres": [["name": "Test Genre 1"], ["name": "Test Genre 2"]], "releaseDate": "2020-05-15", "copyright": "℗ 2020 Test Copyright"]
         
         let albumModel = AlbumModel(albumDTO)
         
         let albumViewModel = AlbumViewModel(albumModel)
 
-        let expectation = XCTestExpectation(description: "Download album artwork.")
-        albumViewModel.loadImage { (image) in
+        let artworkExpectation = XCTestExpectation(description: "Download album artwork.")
+        albumViewModel.loadImage(withCompletion: { (image) in
             XCTAssertNotNil(image, "The display image for the album artwork is not as expected.")
-            expectation.fulfill()
-        }
-        wait(for: [expectation], timeout: 10.0)
+            artworkExpectation.fulfill()
+        })
+        
+        let urlExpectation = XCTestExpectation(description: "Open album in iTunes.")
+        albumViewModel.openAlbumInItunes(withCompletion: { (success) in
+            XCTAssertTrue(success, "The album did not open in iTunes as expected.")
+            urlExpectation.fulfill()
+        })
+        
+        wait(for: [artworkExpectation, urlExpectation], timeout: 10.0)
 
         XCTAssertEqual(albumViewModel.nameText, "Test Album", "The display text for the album name is not as expected.")
         XCTAssertEqual(albumViewModel.artistNameText, "Artist: Test Artist Name", "The display text for the album artist name is not as expected.")
