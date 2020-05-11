@@ -16,7 +16,7 @@ class DetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Album Detail"
+        title = albumViewModel?.nameText
         view.backgroundColor = .white
         createSubviews()
     }
@@ -26,7 +26,6 @@ class DetailViewController: UIViewController {
     func createSubviews() {
         createStackView()
         createImageViewForAlbumArt()
-        createLabel(fromText: albumViewModel?.nameText)
         createLabel(fromText: albumViewModel?.artistNameText)
         createLabel(fromText: albumViewModel?.genreText)
         createLabel(fromText: albumViewModel?.releaseDateText)
