@@ -99,7 +99,7 @@ class DetailViewController: UIViewController {
     
     //MARK: Convenience Methods
     
-    @objc func buttonAction(sender: UIButton!) {
+    @objc func buttonAction(sender: UIButton?) {
         self.navigationController?.popViewController(animated: true)
     }
 }
