@@ -12,6 +12,8 @@ class ViewController: UITableViewController {
     let cellIdentifier = "AlbumCell"
     var albumViewModels: [AlbumViewModel]?
     
+    //MARK: View Life-Cycle Methods
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -19,36 +21,6 @@ class ViewController: UITableViewController {
 
         displayAlert(withMessage: "Loading Albums...")
         fetchTop100AlbumsOnItunes()
-    }
-    
-    func fetchTop100AlbumsOnItunes() {
-        let urlString = "https://rss.itunes.apple.com/api/v1/us/apple-music/coming-soon/all/100/explicit.json"
-        guard let url = URL(string: urlString) else { return }
-        let dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
-            DispatchQueue.main.async {
-                self.dismiss(animated: true, completion: {
-                    guard let data = data else {
-                        self.displayAlert(withMessage: "Could not load the albums. \(error?.localizedDescription ?? "An error occurred while fetching the feed.")", andButtonTitle: "Okay")
-                        return
-                    }
-                    
-                    do {
-                        let json = try JSONSerialization.jsonObject(with: data) as? Dictionary<String, Any>
-                        guard let feed = json?["feed"] as? Dictionary<String, Any> else { return }
-                        guard let results = feed["results"] as? Array<Dictionary<String, Any>> else { return }
-                        self.albumViewModels = results.map({AlbumViewModel(AlbumModel($0))})
-                        self.tableView.reloadData()
-                        //#if DEBUG
-                        //self.tableView(self.tableView, didSelectRowAt: IndexPath(row: 13, section: 0))
-                        //#endif
-                    } catch {
-                        self.displayAlert(withMessage: "Could not load the albums. An error occurred while parsing the JSON.", andButtonTitle: "Okay")
-                    }
-                })
-            }
-        }
-        
-        dataTask.resume()
     }
     
     //MARK: Table View Data Source Methods
@@ -104,6 +76,36 @@ class ViewController: UITableViewController {
                 alertController.addAction(UIAlertAction(title: buttonTitle, style: .default, handler: nil))
             }
             self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func fetchTop100AlbumsOnItunes() {
+        let urlString = "https://rss.itunes.apple.com/api/v1/us/apple-music/coming-soon/all/100/explicit.json"
+        guard let url = URL(string: urlString) else { return }
+        let dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
+            DispatchQueue.main.async {
+                self.dismiss(animated: true, completion: {
+                    guard let data = data else {
+                        self.displayAlert(withMessage: "Could not load the albums. \(error?.localizedDescription ?? "An error occurred while fetching the feed.")", andButtonTitle: "Okay")
+                        return
+                    }
+                    
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data) as? Dictionary<String, Any>
+                        guard let feed = json?["feed"] as? Dictionary<String, Any> else { return }
+                        guard let results = feed["results"] as? Array<Dictionary<String, Any>> else { return }
+                        self.albumViewModels = results.map({AlbumViewModel(AlbumModel($0))})
+                        self.tableView.reloadData()
+                        //#if DEBUG
+                        //self.tableView(self.tableView, didSelectRowAt: IndexPath(row: 13, section: 0))
+                        //#endif
+                    } catch {
+                        self.displayAlert(withMessage: "Could not load the albums. An error occurred while parsing the JSON.", andButtonTitle: "Okay")
+                    }
+                })
+            }
+        }
+        
+        dataTask.resume()
     }
 }
 
