@@ -9,7 +9,6 @@
 import UIKit
 
 struct AlbumViewModel {
-
     var artworkUrl: String?
     var nameText: String?
     var artistNameText: String?

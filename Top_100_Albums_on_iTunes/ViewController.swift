@@ -60,7 +60,6 @@ class ViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
         var cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier)
         
         if cell == nil {
@@ -88,14 +87,11 @@ class ViewController: UITableViewController {
     //MARK: Table View Delegate Methods
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         tableView.deselectRow(at: indexPath, animated: false)
         
         let detailViewController = DetailViewController()
-        
-        guard let albumViewModel = albumViewModels?[indexPath.row] else { return }
-        
-        detailViewController.albumViewModel = albumViewModel
+
+        detailViewController.albumViewModel = albumViewModels?[indexPath.row]
         
         navigationController?.pushViewController(detailViewController, animated: true)
     }

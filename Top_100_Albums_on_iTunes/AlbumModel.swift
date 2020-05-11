@@ -15,7 +15,6 @@ struct AlbumModel {
     var copyright: String?
 
     init(_ albumDTO: Dictionary<String, AnyObject>) {
-        
         artworkUrl = albumDTO["artworkUrl100"] as? String
         name = albumDTO["name"] as? String
         artistName = albumDTO["artistName"] as? String
