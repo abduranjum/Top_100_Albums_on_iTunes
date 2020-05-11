@@ -30,7 +30,7 @@ class DetailViewController: UIViewController {
         createLabel(fromText: albumViewModel?.genreText)
         createLabel(fromText: albumViewModel?.releaseDateText)
         createLabel(fromText: albumViewModel?.copyrightText)
-        createButtonToGoBack()
+        createButtonToViewAlbumOnItunes()
     }
     
     func createStackView() {
@@ -76,7 +76,7 @@ class DetailViewController: UIViewController {
         label.text = text
     }
     
-    func createButtonToGoBack() {
+    func createButtonToViewAlbumOnItunes() {
         
         let button = UIButton()
         view.addSubview(button)
@@ -89,9 +89,9 @@ class DetailViewController: UIViewController {
         button.trailingAnchor.constraint(equalTo: margins.trailingAnchor, constant: -20).isActive = true
         button.bottomAnchor.constraint(equalTo: margins.bottomAnchor, constant: -20).isActive = true
         
-        button.backgroundColor = .lightGray
+        button.backgroundColor = .systemBlue
 
-        button.setTitle("Return to Albums", for: .normal)
+        button.setTitle("View in iTunes", for: .normal)
         
         button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
     }
@@ -99,7 +99,11 @@ class DetailViewController: UIViewController {
     //MARK: Convenience Methods
     
     @objc func buttonAction(sender: UIButton?) {
-        self.navigationController?.popViewController(animated: true)
+        guard let urlString = albumViewModel?.url else { return }
+        guard let url = URL(string: urlString) else { return }
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
+        }
     }
 }
 

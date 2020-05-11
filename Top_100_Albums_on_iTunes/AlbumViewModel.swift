@@ -11,6 +11,7 @@ import UIKit
 class AlbumViewModel {
     var artwork: UIImage?
     private var artworkUrl: String?
+    var url: String?
     var nameText: String?
     var artistNameText: String?
     var genreText: String?
@@ -19,6 +20,7 @@ class AlbumViewModel {
     
     init(_ albumModel: AlbumModel) {
         artworkUrl = albumModel.artworkUrl
+        url = albumModel.url
         nameText = albumModel.name
         artistNameText = "Artist: \(albumModel.artistName ?? "")"
         genreText = "Genres: \(getGenreText(from: albumModel.genre))"

@@ -8,6 +8,7 @@
 
 struct AlbumModel {
     var artworkUrl: String?
+    var url: String?
     var name: String?
     var artistName: String?
     var genre: Array<Dictionary<String, String>>?
@@ -15,6 +16,7 @@ struct AlbumModel {
     var copyright: String?
 
     init(_ albumDTO: Dictionary<String, Any>) {
+        url = albumDTO["url"] as? String
         artworkUrl = albumDTO["artworkUrl100"] as? String
         name = albumDTO["name"] as? String
         artistName = albumDTO["artistName"] as? String
