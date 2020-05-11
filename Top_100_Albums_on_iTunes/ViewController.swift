@@ -72,20 +72,15 @@ class ViewController: UITableViewController {
         cell?.textLabel?.text = albumViewModel?.nameText
         cell?.detailTextLabel?.text = albumViewModel?.artistNameText
         cell?.imageView?.image = nil
-                
-        DispatchQueue.global().async {
-            
-            guard let imageUrl = albumViewModel?.artworkUrl else { return }
-            guard let url = URL(string: imageUrl) else { return }
-            
-            let data = try? Data(contentsOf: url)
-            DispatchQueue.main.async {
-                if let currentCell = tableView.cellForRow(at: indexPath) {
-                    currentCell.imageView?.image = UIImage(data: data!)
-                    currentCell.setNeedsLayout()
-                }
+        
+        albumViewModel?.loadImage(withCompletion: { (image) in
+            //The following IF condition is to ensure whether the cell is visible for the indexPath,
+            // as it could present but for another indexPath.
+            if let cellAtIndex = tableView.cellForRow(at: indexPath) {
+                cellAtIndex.imageView?.image = image
+                cellAtIndex.setNeedsLayout()
             }
-        }
+        })
         
         return cell ?? UITableViewCell()
     }

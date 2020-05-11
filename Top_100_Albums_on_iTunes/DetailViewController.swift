@@ -62,9 +62,10 @@ class DetailViewController: UIViewController {
         imageView.heightAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
         imageView.contentMode = .scaleAspectFit
-        guard let imageUrlString = self.albumViewModel?.artworkUrl else { return }
-        
-        loadImage(in: imageView, from: imageUrlString)
+        albumViewModel?.loadImage(withCompletion: { (image) in
+            imageView.image = image
+            
+        })
     }
     
     func createLabel(fromText text: String?) {
@@ -99,20 +100,6 @@ class DetailViewController: UIViewController {
     }
     
     //MARK: Convenience Methods
-    
-    func loadImage(in imageView: UIImageView, from urlString: String) {
-        DispatchQueue.global().async {
-            guard let url = URL(string: urlString) else { return }
-            let data = try? Data(contentsOf: url)
-            DispatchQueue.main.async {
-                if let image = UIImage(data: data!) {
-                    imageView.image = image
-                    imageView.setNeedsDisplay()
-                    imageView.layoutIfNeeded()
-                }
-            }
-        }
-    }
     
     @objc func buttonAction(sender: UIButton!) {
         self.navigationController?.popViewController(animated: true)

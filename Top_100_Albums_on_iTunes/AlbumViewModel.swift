@@ -31,4 +31,17 @@ struct AlbumViewModel {
         let genres = genresData.map({$0["name"] ?? ""})
         return genres.joined(separator: ", ")
     }
+
+    func loadImage(withCompletion completion: @escaping (UIImage) -> ()) {
+        DispatchQueue.global().async {
+           guard let urlString = self.artworkUrl else { return }
+           guard let url = URL(string: urlString) else { return }
+            let data = try? Data(contentsOf: url)
+            DispatchQueue.main.async {
+                guard let data = data else { return }
+                guard let image = UIImage(data: data) else { return }
+                completion(image)
+            }
+        }
+    }
 }
