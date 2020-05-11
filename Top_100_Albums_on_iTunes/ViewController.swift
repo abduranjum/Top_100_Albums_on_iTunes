@@ -30,10 +30,10 @@ class ViewController: UITableViewController {
             }
             
             do {
-                let json = try JSONSerialization.jsonObject(with: feedData) as? Dictionary<String, AnyObject>
+                let json = try JSONSerialization.jsonObject(with: feedData) as? Dictionary<String, Any>
                 
-                guard let feed = json?["feed"] as? Dictionary<String, AnyObject> else { return }
-                guard let results = feed["results"] as? [Dictionary<String, AnyObject>] else { return }
+                guard let feed = json?["feed"] as? Dictionary<String, Any> else { return }
+                guard let results = feed["results"] as? Array<Dictionary<String, Any>> else { return }
 
                 print(results)
                 

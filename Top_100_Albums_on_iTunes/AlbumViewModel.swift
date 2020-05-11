@@ -25,8 +25,8 @@ struct AlbumViewModel {
         copyrightText = "Copyright: \(albumModel.copyright ?? "")"
     }
     
-    private func getGenreText(from genres: Array<Any>?) -> String {
-        guard let genresData = genres as? Array<Dictionary<String, String>> else { return ""}
+    private func getGenreText(from genres: Array<Dictionary<String, String>>?) -> String {
+        guard let genresData = genres else { return ""}
         let genres = genresData.map({$0["name"] ?? ""})
         return genres.joined(separator: ", ")
     }
