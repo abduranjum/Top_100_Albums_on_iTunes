@@ -42,7 +42,7 @@ class ViewController: UITableViewController {
         cell?.detailTextLabel?.text = albumViewModel?.artistNameText
         cell?.imageView?.image = nil
         
-        albumViewModel?.loadImage(withCompletion: { (image) in
+        albumViewModel?.loadArtwork(withCompletion: { (image) in
             DispatchQueue.main.async {
                 //The following IF condition is to ensure whether the cell is visible for the indexPath,
                 // as it could present but for another indexPath.

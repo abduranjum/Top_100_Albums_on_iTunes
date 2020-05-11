@@ -34,7 +34,7 @@ class AlbumViewModel {
         return genreNames.joined(separator: ", ")
     }
 
-    func loadImage(withCompletion completion: @escaping (UIImage?) -> ()) {
+    func loadArtwork(withCompletion completion: @escaping (UIImage?) -> ()) {
         if artwork != nil {
             completion(artwork)
             return

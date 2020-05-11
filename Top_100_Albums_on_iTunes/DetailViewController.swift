@@ -58,7 +58,7 @@ class DetailViewController: UIViewController {
         imageView.heightAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
         imageView.widthAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
         imageView.contentMode = .scaleAspectFit
-        albumViewModel?.loadImage(withCompletion: { (image) in
+        albumViewModel?.loadArtwork(withCompletion: { (image) in
             DispatchQueue.main.async {
                 imageView.image = image
             }

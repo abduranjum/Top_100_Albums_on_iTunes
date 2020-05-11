@@ -28,7 +28,7 @@ class Top_100_Albums_on_iTunesTests: XCTestCase {
         let albumViewModel = AlbumViewModel(albumModel)
 
         let artworkExpectation = XCTestExpectation(description: "Download album artwork.")
-        albumViewModel.loadImage(withCompletion: { (image) in
+        albumViewModel.loadArtwork(withCompletion: { (image) in
             XCTAssertNotNil(image, "The display image for the album artwork is not as expected.")
             artworkExpectation.fulfill()
         })
