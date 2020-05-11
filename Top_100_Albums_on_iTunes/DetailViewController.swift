@@ -35,11 +35,8 @@ class DetailViewController: UIViewController {
     }
     
     func createStackView() {
-        
-        guard let superView = view else {return}
-        
         let stackView = UIStackView()
-        superView.addSubview(stackView)
+        view.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
 
         let margins = view.safeAreaLayoutGuide
@@ -71,7 +68,7 @@ class DetailViewController: UIViewController {
     
     func createLabel(fromText text: String?) {
         
-        guard let text = text else { return }
+        guard text != nil else { return }
         let label = UILabel()
         stackView?.addArrangedSubview(label)
         label.translatesAutoresizingMaskIntoConstraints = false

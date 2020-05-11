@@ -26,9 +26,9 @@ struct AlbumViewModel {
     }
     
     private func getGenreText(from genres: Array<Dictionary<String, String>>?) -> String {
-        guard let genresData = genres else { return ""}
-        let genres = genresData.map({$0["name"] ?? ""})
-        return genres.joined(separator: ", ")
+        guard let genres = genres else { return ""}
+        let genreNames = genres.map({$0["name"] ?? ""})
+        return genreNames.joined(separator: ", ")
     }
 
     func loadImage(withCompletion completion: @escaping (UIImage?) -> ()) {
