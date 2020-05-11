@@ -73,11 +73,13 @@ class ViewController: UITableViewController {
         cell?.imageView?.image = nil
         
         albumViewModel?.loadImage(withCompletion: { (image) in
-            //The following IF condition is to ensure whether the cell is visible for the indexPath,
-            // as it could present but for another indexPath.
-            if let cellAtIndex = tableView.cellForRow(at: indexPath) {
-                cellAtIndex.imageView?.image = image
-                cellAtIndex.setNeedsLayout()
+            DispatchQueue.main.async {
+                //The following IF condition is to ensure whether the cell is visible for the indexPath,
+                // as it could present but for another indexPath.
+                if let cellAtIndex = tableView.cellForRow(at: indexPath) {
+                    cellAtIndex.imageView?.image = image
+                    cellAtIndex.setNeedsLayout()
+                }
             }
         })
         

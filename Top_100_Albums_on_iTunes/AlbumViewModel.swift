@@ -31,16 +31,14 @@ struct AlbumViewModel {
         return genres.joined(separator: ", ")
     }
 
-    func loadImage(withCompletion completion: @escaping (UIImage) -> ()) {
+    func loadImage(withCompletion completion: @escaping (UIImage?) -> ()) {
         DispatchQueue.global().async {
-           guard let urlString = self.artworkUrl else { return }
-           guard let url = URL(string: urlString) else { return }
+            guard let urlString = self.artworkUrl else { completion(nil); return }
+            guard let url = URL(string: urlString) else { completion(nil); return }
             let data = try? Data(contentsOf: url)
-            DispatchQueue.main.async {
-                guard let data = data else { return }
-                guard let image = UIImage(data: data) else { return }
-                completion(image)
-            }
+            guard let imageData = data else { completion(nil); return }
+            guard let image = UIImage(data: imageData) else { completion(nil); return }
+            completion(image)
         }
     }
 }
