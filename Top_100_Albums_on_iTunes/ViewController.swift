@@ -17,6 +17,7 @@ class ViewController: UITableViewController {
 
         title = "Top 100 Albums on iTunes"
 
+        displayAlert(withMessage: "Loading Albums...")
         fetchTop100AlbumsOnItunes()
     }
     
@@ -24,29 +25,26 @@ class ViewController: UITableViewController {
         let urlString = "https://rss.itunes.apple.com/api/v1/us/apple-music/coming-soon/all/100/explicit.json"
         guard let url = URL(string: urlString) else { return }
         let dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data else {
-                self.displayAlert(withMessage: error?.localizedDescription ?? "An error occurred while fetching the feed.")
-                return
-            }
-            
-            do {
-                let json = try JSONSerialization.jsonObject(with: data) as? Dictionary<String, Any>
-                
-                guard let feed = json?["feed"] as? Dictionary<String, Any> else { return }
-                guard let results = feed["results"] as? Array<Dictionary<String, Any>> else { return }
-
-                print(results)
-                
-                self.albumViewModels = results.map({AlbumViewModel(AlbumModel($0))})
-                
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                    //#if DEBUG
-                    //self.tableView(self.tableView, didSelectRowAt: IndexPath(row: 13, section: 0))
-                    //#endif
-                }
-            } catch {
-                self.displayAlert(withMessage: "An error occurred while parsing the JSON.")
+            DispatchQueue.main.async {
+                self.dismiss(animated: true, completion: {
+                    guard let data = data else {
+                        self.displayAlert(withMessage: "Could not load the albums. \(error?.localizedDescription ?? "An error occurred while fetching the feed.")", andButtonTitle: "Okay")
+                        return
+                    }
+                    
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: data) as? Dictionary<String, Any>
+                        guard let feed = json?["feed"] as? Dictionary<String, Any> else { return }
+                        guard let results = feed["results"] as? Array<Dictionary<String, Any>> else { return }
+                        self.albumViewModels = results.map({AlbumViewModel(AlbumModel($0))})
+                        self.tableView.reloadData()
+                        //#if DEBUG
+                        //self.tableView(self.tableView, didSelectRowAt: IndexPath(row: 13, section: 0))
+                        //#endif
+                    } catch {
+                        self.displayAlert(withMessage: "Could not load the albums. An error occurred while parsing the JSON.", andButtonTitle: "Okay")
+                    }
+                })
             }
         }
         
@@ -100,12 +98,12 @@ class ViewController: UITableViewController {
     
     //MARK: Convenience Methods
     
-    func displayAlert(withMessage message: String) {
-        DispatchQueue.main.async {
-            let alertController = UIAlertController(title: "Alert", message: message, preferredStyle: .alert)
-            alertController.addAction(UIAlertAction(title: "Okay", style: .default, handler: nil))
+    func displayAlert(withMessage message: String, andButtonTitle buttonTitle: String? = nil) {
+            let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+            if buttonTitle != nil {
+                alertController.addAction(UIAlertAction(title: buttonTitle, style: .default, handler: nil))
+            }
             self.present(alertController, animated: true, completion: nil)
-        }
     }
 }
 
