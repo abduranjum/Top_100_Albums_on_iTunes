@@ -8,8 +8,9 @@
 
 import UIKit
 
-struct AlbumViewModel {
-    var artworkUrl: String?
+class AlbumViewModel {
+    var artwork: UIImage?
+    private var artworkUrl: String?
     var nameText: String?
     var artistNameText: String?
     var genreText: String?
@@ -32,12 +33,17 @@ struct AlbumViewModel {
     }
 
     func loadImage(withCompletion completion: @escaping (UIImage?) -> ()) {
+        if artwork != nil {
+            completion(artwork)
+            return
+        }
         DispatchQueue.global().async {
             guard let urlString = self.artworkUrl else { completion(nil); return }
             guard let url = URL(string: urlString) else { completion(nil); return }
             let data = try? Data(contentsOf: url)
             guard let imageData = data else { completion(nil); return }
             guard let image = UIImage(data: imageData) else { completion(nil); return }
+            self.artwork = image
             completion(image)
         }
     }
